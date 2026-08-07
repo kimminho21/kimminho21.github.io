@@ -54,33 +54,50 @@
       <script>
         const SKEY = 'unnuun_schedule_v1';
         const SERVER_BASE = 'http://localhost:5000';
-        async function loadSchedule(){
+
+        async function getServerData(){
           try{
-            const res = await fetch(SERVER_BASE + '/data/schedule');
+            const res = await fetch(SERVER_BASE + '/data');
             if(res.ok){
-              const data = await res.json();
-              // also mirror to localStorage
-              localStorage.setItem(SKEY, JSON.stringify(data));
-              return data;
+              return await res.json();
             }
-          }catch(e){/* server not available */}
-          const raw = localStorage.getItem(SKEY);
-          return raw?JSON.parse(raw):[];
+          }catch(e){ }
+          return null;
         }
+
+        async function loadSchedule(){
+          const serverData = await getServerData();
+          if(serverData){
+            const items = serverData.schedule || [];
+            localStorage.setItem(SKEY, JSON.stringify(items));
+            return items;
+          }
+          const raw = localStorage.getItem(SKEY);
+          return raw ? JSON.parse(raw) : [];
+        }
+
         async function saveSchedule(items){
-          // try server first
           try{
-            const res = await fetch(SERVER_BASE + '/save/schedule', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(items)});
-            if(res.ok){ localStorage.setItem(SKEY, JSON.stringify(items)); return; }
-          }catch(e){/* ignore */}
-          // fallback to localStorage
+            const current = (await getServerData()) || { schedule: [], shoes: [], weight: [] };
+            current.schedule = items;
+            const res = await fetch(SERVER_BASE + '/save', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(current)
+            });
+            if(res.ok){
+              localStorage.setItem(SKEY, JSON.stringify(items));
+              return;
+            }
+          }catch(e){ }
           localStorage.setItem(SKEY, JSON.stringify(items));
         }
+
         async function render(){
           const tbody = document.querySelector('#scheduleTable tbody');
-          tbody.innerHTML='';
+          tbody.innerHTML = '';
           const items = await loadSchedule();
-          items.forEach((it,idx)=>{
+          items.forEach((it, idx) => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
               <td>${escapeHtml(it.name)}</td>
@@ -96,53 +113,74 @@
           });
           attachHandlers();
         }
-        function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+        function escapeHtml(s){ return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
         function attachHandlers(){
-          document.querySelectorAll('.delBtn').forEach(b=>b.onclick=function(){
-              const i=+this.dataset.idx; const items=loadSchedule(); items.splice(i,1); saveSchedule(items); render();
-            });
-            document.querySelectorAll('.editBtn').forEach(b=>b.onclick=function(){
-              const i=+this.dataset.idx; startEdit(i);
-            });
-        }
-          let editingIndex = null;
-          function startEdit(i){
-            const items = loadSchedule(); const it = items[i];
-            document.getElementById('evtName').value = it.name || '';
-            document.getElementById('evtDist').value = it.dist || '';
-            document.getElementById('evtDate').value = it.date || '';
-            document.getElementById('evtLoc').value = it.loc || '';
-            document.getElementById('evtPrice').value = it.price || '';
-            editingIndex = i;
-            document.getElementById('addEvt').textContent = '저장';
-            document.getElementById('cancelEdit').style.display = '';
-          }
-          document.getElementById('cancelEdit').addEventListener('click', ()=>{
-            editingIndex = null;
-            document.getElementById('addEvt').textContent = '추가';
-            document.getElementById('cancelEdit').style.display = 'none';
-            document.getElementById('evtName').value=''; document.getElementById('evtDist').value=''; document.getElementById('evtDate').value=''; document.getElementById('evtLoc').value=''; document.getElementById('evtPrice').value='';
+          document.querySelectorAll('.delBtn').forEach(b => b.onclick = async function(){
+            const i = +this.dataset.idx;
+            const items = await loadSchedule();
+            items.splice(i, 1);
+            await saveSchedule(items);
+            render();
           });
-        document.getElementById('addEvt').addEventListener('click',async ()=>{
-          const name=document.getElementById('evtName').value.trim();
-          const dist=document.getElementById('evtDist').value.trim();
-          const date=document.getElementById('evtDate').value;
-          const loc=document.getElementById('evtLoc').value.trim();
-          const price=document.getElementById('evtPrice').value.trim();
+          document.querySelectorAll('.editBtn').forEach(b => b.onclick = async function(){
+            const i = +this.dataset.idx;
+            await startEdit(i);
+          });
+        }
+
+        let editingIndex = null;
+
+        async function startEdit(i){
+          const items = await loadSchedule();
+          const it = items[i] || {};
+          document.getElementById('evtName').value = it.name || '';
+          document.getElementById('evtDist').value = it.dist || '';
+          document.getElementById('evtDate').value = it.date || '';
+          document.getElementById('evtLoc').value = it.loc || '';
+          document.getElementById('evtPrice').value = it.price || '';
+          editingIndex = i;
+          document.getElementById('addEvt').textContent = '저장';
+          document.getElementById('cancelEdit').style.display = '';
+        }
+
+        document.getElementById('cancelEdit').addEventListener('click', () => {
+          editingIndex = null;
+          document.getElementById('addEvt').textContent = '추가';
+          document.getElementById('cancelEdit').style.display = 'none';
+          document.getElementById('evtName').value = '';
+          document.getElementById('evtDist').value = '';
+          document.getElementById('evtDate').value = '';
+          document.getElementById('evtLoc').value = '';
+          document.getElementById('evtPrice').value = '';
+        });
+
+        document.getElementById('addEvt').addEventListener('click', async () => {
+          const name = document.getElementById('evtName').value.trim();
+          const dist = document.getElementById('evtDist').value.trim();
+          const date = document.getElementById('evtDate').value;
+          const loc = document.getElementById('evtLoc').value.trim();
+          const price = document.getElementById('evtPrice').value.trim();
           if(!name){ alert('대회명을 입력하세요'); return; }
           const items = await loadSchedule();
-          if(editingIndex===null){
-            items.push({name,dist,date,loc,price});
+          if(editingIndex === null){
+            items.push({ name, dist, date, loc, price });
           } else {
-            items[editingIndex] = {name,dist,date,loc,price};
+            items[editingIndex] = { name, dist, date, loc, price };
             editingIndex = null;
             document.getElementById('addEvt').textContent = '추가';
             document.getElementById('cancelEdit').style.display = 'none';
           }
           await saveSchedule(items);
           render();
-          document.getElementById('evtName').value=''; document.getElementById('evtDist').value=''; document.getElementById('evtDate').value=''; document.getElementById('evtLoc').value=''; document.getElementById('evtPrice').value='';
+          document.getElementById('evtName').value = '';
+          document.getElementById('evtDist').value = '';
+          document.getElementById('evtDate').value = '';
+          document.getElementById('evtLoc').value = '';
+          document.getElementById('evtPrice').value = '';
         });
+
         render();
       </script>
     </main>

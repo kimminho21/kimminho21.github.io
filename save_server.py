@@ -11,28 +11,28 @@ def add_cors(response):
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
     return response
 
-@app.route('/data/<name>', methods=['GET'])
-def get_data(name):
-    fn = os.path.join(DATA_DIR, name + '.json')
-    if not os.path.exists(fn):
-        return jsonify([])
-    with open(fn, 'r', encoding='utf-8') as f:
+DATA_FILE = os.path.join(DATA_DIR, 'data.json')
+
+@app.route('/data', methods=['GET'])
+def get_data():
+    if not os.path.exists(DATA_FILE):
+        return jsonify({})
+    with open(DATA_FILE, 'r', encoding='utf-8') as f:
         try:
             data = json.load(f)
             return jsonify(data)
         except Exception:
-            return jsonify([])
+            return jsonify({})
 
-@app.route('/save/<name>', methods=['POST'])
-def save_data(name):
+@app.route('/save', methods=['POST'])
+def save_data():
     try:
-        data = request.get_json(force=True)
+        payload = request.get_json(force=True)
     except Exception:
         return jsonify({'error': 'invalid json'}), 400
-    fn = os.path.join(DATA_DIR, name + '.json')
     try:
-        with open(fn, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
+        with open(DATA_FILE, 'w', encoding='utf-8') as f:
+            json.dump(payload, f, ensure_ascii=False, indent=2)
         return jsonify({'ok': True})
     except Exception as e:
         return jsonify({'error': str(e)}), 500

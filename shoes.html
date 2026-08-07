@@ -48,19 +48,44 @@
 
       <script>
         const SKEY='unnuun_shoes_v1';
+        const SERVER_BASE = 'http://localhost:5000';
         function load(){return JSON.parse(localStorage.getItem(SKEY)||'[]');}
         function save(a){localStorage.setItem(SKEY,JSON.stringify(a));}
         function escapeHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
         let editingIndex = null;
-        const SERVER_BASE = 'http://localhost:5000';
+
+        async function getServerData(){
+          try{
+            const res = await fetch(SERVER_BASE + '/data');
+            if(res.ok){ return await res.json(); }
+          }catch(e){}
+          return null;
+        }
+
         async function loadAll(){
-          try{ const res = await fetch(SERVER_BASE + '/data/shoes'); if(res.ok){ const d = await res.json(); localStorage.setItem(SKEY, JSON.stringify(d)); return d; }}catch(e){}
+          const serverData = await getServerData();
+          if(serverData){
+            const items = serverData.shoes || [];
+            localStorage.setItem(SKEY, JSON.stringify(items));
+            return items;
+          }
           return load();
         }
+
         async function saveAll(a){
-          try{ const res = await fetch(SERVER_BASE + '/save/shoes', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(a)}); if(res.ok){ localStorage.setItem(SKEY, JSON.stringify(a)); return; }}catch(e){}
+          try{
+            const current = (await getServerData()) || { schedule: [], shoes: [], weight: [] };
+            current.shoes = a;
+            const res = await fetch(SERVER_BASE + '/save', {
+              method:'POST',
+              headers:{'Content-Type':'application/json'},
+              body:JSON.stringify(current)
+            });
+            if(res.ok){ save(a); return; }
+          }catch(e){}
           save(a);
         }
+
         async function render(){
           const tbody=document.querySelector('#shoesTable tbody'); tbody.innerHTML='';
           const items = await loadAll();
