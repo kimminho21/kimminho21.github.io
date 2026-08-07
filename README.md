@@ -14,20 +14,31 @@ python -m venv .venv
 2. 의존성 설치
 
 ```powershell
-pip install flask
+pip install flask google-api-python-client google-auth
 ```
 
-3. 서버 실행
+3. Google Sheets 서비스 계정 설정
+
+- Google Cloud Console에서 서비스 계정 생성
+- JSON 키 파일 다운로드
+- `credentials/service_account.json` 위치에 저장하거나 환경 변수 `GOOGLE_APPLICATION_CREDENTIALS`로 경로 지정
+- Google Sheets에서 공유 설정에 서비스 계정 이메일 추가
+- Google Sheets ID를 환경 변수로 설정
+
+4. 서버 실행
 
 ```powershell
+$env:GOOGLE_SHEET_ID='your_sheet_id_here'
+$env:GOOGLE_APPLICATION_CREDENTIALS='c:\project\gorich\credentials\service_account.json'
 python save_server.py
 ```
 
 - 서버는 기본적으로 `http://localhost:5000`에서 동작합니다.
-- 정적 파일은 이미 `python -m http.server 8000` 같은 명령으로 서빙하고 있으므로, 브라우저에서 `http://localhost:8000`을 열어 페이지를 사용하세요.
-- 서버가 실행되면 각 페이지에서 저장/불러오기 시 `data/data.json` 파일에 모든 데이터가 하나의 JSON 구조로 저장됩니다.
+- 정적 파일은 `python -m http.server 8000` 같은 명령으로 서빙하세요.
+- 서버가 실행되면 먼저 Google Sheets에 저장/불러오기를 시도합니다.
+- Google Sheets 사용이 실패하면 `data/data.json`로 자동 폴백됩니다.
 
 데이터 파일:
-- `data/data.json`
+- `data/data.json` (Google Sheets 연결 실패 시 사용)
 
 주의: 이 서버는 개발/로컬 용이며 인증, 보안, 동시성 처리가 되어 있지 않습니다. 공개된 환경에서 사용하지 마세요.
