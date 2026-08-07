@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>대회일정</title>
+  <style>
+    body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Noto Sans KR',Arial;margin:0;background:#fff;color:#111}
+    .layout{display:flex;min-height:100vh}
+    aside{width:220px;background:#f7fafc;border-right:1px solid #e6edf3;padding:18px;box-sizing:border-box}
+    nav a{display:block;padding:10px 12px;margin:6px 0;border-radius:6px;color:#0b5;text-decoration:none}
+    nav a:hover{background:#e6f6ef}
+    main{flex:1;padding:24px}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{border:1px solid #e2e8f0;padding:8px;text-align:left}
+    th{background:#f7fafc}
+    footer{padding:12px 18px;font-size:13px;color:#666;border-top:1px solid #eee}
+    @media(max-width:700px){aside{display:none}}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <h2 style="font-size:16px;margin:0 0 12px">언누운크루</h2>
+      <nav>
+        <a href="index.html">홈</a>
+        <a href="unnuun.html">언누운크루 소개</a>
+        <a href="schedule.html">대회일정</a>
+        <a href="shoes.html">신발현황</a>
+        <a href="care.html">몸관리</a>
+      </nav>
+    </aside>
+    <main>
+      <h1>대회일정</h1>
+      <p>대회 일정을 추가/수정/삭제 할 수 있습니다. 데이터는 브라우저에 저장됩니다.</p>
+
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <input id="evtName" placeholder="대회명" style="padding:6px;min-width:140px" />
+        <input id="evtDist" placeholder="거리 (예: 풀/하프)" style="padding:6px;min-width:100px" />
+        <input id="evtDate" type="date" style="padding:6px" />
+        <input id="evtLoc" placeholder="위치" style="padding:6px;min-width:120px" />
+        <input id="evtPrice" placeholder="가격" style="padding:6px;min-width:80px" />
+        <button id="addEvt">추가</button>
+        <button id="cancelEdit" style="display:none">취소</button>
+      </div>
+
+      <table id="scheduleTable">
+        <thead>
+          <tr><th>대회명</th><th>거리</th><th>날짜</th><th>위치</th><th>가격</th><th>작업</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <script>
+        const SKEY = 'unnuun_schedule_v1';
+        const SERVER_BASE = 'http://localhost:5000';
+        async function loadSchedule(){
+          try{
+            const res = await fetch(SERVER_BASE + '/data/schedule');
+            if(res.ok){
+              const data = await res.json();
+              // also mirror to localStorage
+              localStorage.setItem(SKEY, JSON.stringify(data));
+              return data;
+            }
+          }catch(e){/* server not available */}
+          const raw = localStorage.getItem(SKEY);
+          return raw?JSON.parse(raw):[];
+        }
+        async function saveSchedule(items){
+          // try server first
+          try{
+            const res = await fetch(SERVER_BASE + '/save/schedule', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(items)});
+            if(res.ok){ localStorage.setItem(SKEY, JSON.stringify(items)); return; }
+          }catch(e){/* ignore */}
+          // fallback to localStorage
+          localStorage.setItem(SKEY, JSON.stringify(items));
+        }
+        async function render(){
+          const tbody = document.querySelector('#scheduleTable tbody');
+          tbody.innerHTML='';
+          const items = await loadSchedule();
+          items.forEach((it,idx)=>{
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${escapeHtml(it.name)}</td>
+              <td>${escapeHtml(it.dist)}</td>
+              <td>${escapeHtml(it.date)}</td>
+              <td>${escapeHtml(it.loc)}</td>
+              <td>${escapeHtml(it.price)}</td>
+              <td>
+                <button data-idx="${idx}" class="editBtn">수정</button>
+                <button data-idx="${idx}" class="delBtn">삭제</button>
+              </td>`;
+            tbody.appendChild(tr);
+          });
+          attachHandlers();
+        }
+        function escapeHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+        function attachHandlers(){
+          document.querySelectorAll('.delBtn').forEach(b=>b.onclick=function(){
+              const i=+this.dataset.idx; const items=loadSchedule(); items.splice(i,1); saveSchedule(items); render();
+            });
+            document.querySelectorAll('.editBtn').forEach(b=>b.onclick=function(){
+              const i=+this.dataset.idx; startEdit(i);
+            });
+        }
+          let editingIndex = null;
+          function startEdit(i){
+            const items = loadSchedule(); const it = items[i];
+            document.getElementById('evtName').value = it.name || '';
+            document.getElementById('evtDist').value = it.dist || '';
+            document.getElementById('evtDate').value = it.date || '';
+            document.getElementById('evtLoc').value = it.loc || '';
+            document.getElementById('evtPrice').value = it.price || '';
+            editingIndex = i;
+            document.getElementById('addEvt').textContent = '저장';
+            document.getElementById('cancelEdit').style.display = '';
+          }
+          document.getElementById('cancelEdit').addEventListener('click', ()=>{
+            editingIndex = null;
+            document.getElementById('addEvt').textContent = '추가';
+            document.getElementById('cancelEdit').style.display = 'none';
+            document.getElementById('evtName').value=''; document.getElementById('evtDist').value=''; document.getElementById('evtDate').value=''; document.getElementById('evtLoc').value=''; document.getElementById('evtPrice').value='';
+          });
+        document.getElementById('addEvt').addEventListener('click',async ()=>{
+          const name=document.getElementById('evtName').value.trim();
+          const dist=document.getElementById('evtDist').value.trim();
+          const date=document.getElementById('evtDate').value;
+          const loc=document.getElementById('evtLoc').value.trim();
+          const price=document.getElementById('evtPrice').value.trim();
+          if(!name){ alert('대회명을 입력하세요'); return; }
+          const items = await loadSchedule();
+          if(editingIndex===null){
+            items.push({name,dist,date,loc,price});
+          } else {
+            items[editingIndex] = {name,dist,date,loc,price};
+            editingIndex = null;
+            document.getElementById('addEvt').textContent = '추가';
+            document.getElementById('cancelEdit').style.display = 'none';
+          }
+          await saveSchedule(items);
+          render();
+          document.getElementById('evtName').value=''; document.getElementById('evtDist').value=''; document.getElementById('evtDate').value=''; document.getElementById('evtLoc').value=''; document.getElementById('evtPrice').value='';
+        });
+        render();
+      </script>
+    </main>
+  </div>
+  <footer>© 언누운크루</footer>
+</body>
+</html>

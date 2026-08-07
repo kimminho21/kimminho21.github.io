@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>신발현황</title>
+  <style>
+    body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Noto Sans KR',Arial;margin:0;background:#fff;color:#111}
+    .layout{display:flex;min-height:100vh}
+    aside{width:220px;background:#f7fafc;border-right:1px solid #e6edf3;padding:18px;box-sizing:border-box}
+    nav a{display:block;padding:10px 12px;margin:6px 0;border-radius:6px;color:#0b5;text-decoration:none}
+    nav a:hover{background:#e6f6ef}
+    main{flex:1;padding:24px}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{border:1px solid #e2e8f0;padding:8px;text-align:left}
+    th{background:#f7fafc}
+    footer{padding:12px 18px;font-size:13px;color:#666;border-top:1px solid #eee}
+    @media(max-width:700px){aside{display:none}}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside>
+      <h2 style="font-size:16px;margin:0 0 12px">언누운크루</h2>
+      <nav>
+        <a href="index.html">홈</a>
+        <a href="unnuun.html">언누운크루 소개</a>
+        <a href="schedule.html">대회일정</a>
+        <a href="shoes.html">신발현황</a>
+        <a href="care.html">몸관리</a>
+      </nav>
+    </aside>
+    <main>
+      <h1>신발현황</h1>
+      <p>개인별 신발 보유 정보를 추가/수정/삭제할 수 있습니다. 데이터는 브라우저에 저장됩니다.</p>
+
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <input id="owner" placeholder="이름" style="padding:6px;min-width:120px" />
+        <input id="shoeInfo" placeholder="보유 신발 (브랜드/모델)" style="padding:6px;min-width:200px" />
+        <button id="addShoe">추가</button>
+        <button id="cancelShoe" style="display:none">취소</button>
+      </div>
+
+      <table id="shoesTable">
+        <thead><tr><th>이름</th><th>보유 신발</th><th>작업</th></tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <script>
+        const SKEY='unnuun_shoes_v1';
+        function load(){return JSON.parse(localStorage.getItem(SKEY)||'[]');}
+        function save(a){localStorage.setItem(SKEY,JSON.stringify(a));}
+        function escapeHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+        let editingIndex = null;
+        const SERVER_BASE = 'http://localhost:5000';
+        async function loadAll(){
+          try{ const res = await fetch(SERVER_BASE + '/data/shoes'); if(res.ok){ const d = await res.json(); localStorage.setItem(SKEY, JSON.stringify(d)); return d; }}catch(e){}
+          return load();
+        }
+        async function saveAll(a){
+          try{ const res = await fetch(SERVER_BASE + '/save/shoes', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(a)}); if(res.ok){ localStorage.setItem(SKEY, JSON.stringify(a)); return; }}catch(e){}
+          save(a);
+        }
+        async function render(){
+          const tbody=document.querySelector('#shoesTable tbody'); tbody.innerHTML='';
+          const items = await loadAll();
+          items.forEach((it,idx)=>{
+            const tr=document.createElement('tr');
+            tr.innerHTML=`<td>${escapeHtml(it.name)}</td><td>${escapeHtml(it.shoes)}</td><td><button data-idx="${idx}" class="edit">수정</button> <button data-idx="${idx}" class="del">삭제</button></td>`;
+            tbody.appendChild(tr);
+          });
+          document.querySelectorAll('.del').forEach(b=>b.onclick=async function(){const i=+this.dataset.idx;const a=load();a.splice(i,1); await saveAll(a); render();});
+          document.querySelectorAll('.edit').forEach(b=>b.onclick=function(){const i=+this.dataset.idx; startEdit(i);});
+        }
+        function startEdit(i){const a=load();const it=a[i]; document.getElementById('owner').value=it.name||''; document.getElementById('shoeInfo').value=it.shoes||''; editingIndex=i; document.getElementById('addShoe').textContent='저장'; document.getElementById('cancelShoe').style.display='';}
+        document.getElementById('cancelShoe').addEventListener('click',()=>{editingIndex=null; document.getElementById('addShoe').textContent='추가'; document.getElementById('cancelShoe').style.display='none'; document.getElementById('owner').value=''; document.getElementById('shoeInfo').value='';});
+        document.getElementById('addShoe').addEventListener('click',async ()=>{const name=document.getElementById('owner').value.trim(); const shoes=document.getElementById('shoeInfo').value.trim(); if(!name){alert('이름을 입력하세요');return;} const a=load(); if(editingIndex===null){a.push({name,shoes});} else {a[editingIndex]={name,shoes}; editingIndex=null; document.getElementById('addShoe').textContent='추가'; document.getElementById('cancelShoe').style.display='none';} await saveAll(a); render(); document.getElementById('owner').value=''; document.getElementById('shoeInfo').value='';});
+        render();
+      </script>
+    </main>
+  </div>
+  <footer>© 언누운크루</footer>
+</body>
+</html>
