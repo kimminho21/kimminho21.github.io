@@ -31,65 +31,14 @@
     </aside>
     <main>
       <h1>몸관리</h1>
-      <p>개인별 몸무게 정보를 관리할 수 있습니다. 추가/수정/삭제가 가능합니다.</p>
-
-      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <input id="person" placeholder="이름" style="padding:6px;min-width:120px" />
-        <input id="weight" placeholder="몸무게 (kg)" type="number" step="0.1" style="padding:6px;min-width:100px" />
-        <button id="addW">추가</button>
-        <button id="cancelW" style="display:none">취소</button>
-      </div>
-
-      <table id="weightTable">
-        <thead><tr><th>이름</th><th>몸무게 (kg)</th><th>작업</th></tr></thead>
-        <tbody></tbody>
-      </table>
-
-      <script>
-        const WKEY='unnuun_weight_v1';
-        const SERVER_BASE = 'http://localhost:5000';
-        function loadW(){return JSON.parse(localStorage.getItem(WKEY)||'[]');}
-        function saveW(a){localStorage.setItem(WKEY,JSON.stringify(a));}
-        function escapeHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
-        let editingW = null;
-
-        async function getServerData(){
-          try{
-            const res = await fetch(SERVER_BASE + '/data');
-            if(res.ok){ return await res.json(); }
-          }catch(e){}
-          return null;
-        }
-
-        async function loadAllW(){
-          const serverData = await getServerData();
-          if(serverData){
-            const items = serverData.weight || [];
-            localStorage.setItem(WKEY, JSON.stringify(items));
-            return items;
-          }
-          return loadW();
-        }
-
-        async function saveAllW(a){
-          try{
-            const current = (await getServerData()) || { schedule: [], shoes: [], weight: [] };
-            current.weight = a;
-            const res = await fetch(SERVER_BASE + '/save', {
-              method:'POST',
-              headers:{'Content-Type':'application/json'},
-              body:JSON.stringify(current)
-            });
-            if(res.ok){ saveW(a); return; }
-          }catch(e){}
-          saveW(a);
-        }
-
-        async function renderW(){const tbody=document.querySelector('#weightTable tbody');tbody.innerHTML=''; const items = await loadAllW(); items.forEach((it,idx)=>{const tr=document.createElement('tr'); tr.innerHTML=`<td>${escapeHtml(it.name)}</td><td>${escapeHtml(it.weight)}</td><td><button data-idx="${idx}" class="editW">수정</button> <button data-idx="${idx}" class="delW">삭제</button></td>`; tbody.appendChild(tr);}); document.querySelectorAll('.delW').forEach(b=>b.onclick=async function(){const i=+this.dataset.idx; const a=loadW(); a.splice(i,1); await saveAllW(a); renderW();}); document.querySelectorAll('.editW').forEach(b=>b.onclick=function(){const i=+this.dataset.idx; startW(i);}); }
-        function startW(i){const a=loadW(); const it=a[i]; document.getElementById('person').value=it.name||''; document.getElementById('weight').value=it.weight||''; editingW=i; document.getElementById('addW').textContent='저장'; document.getElementById('cancelW').style.display=''; }
-        document.getElementById('cancelW').addEventListener('click',()=>{editingW=null; document.getElementById('addW').textContent='추가'; document.getElementById('cancelW').style.display='none'; document.getElementById('person').value=''; document.getElementById('weight').value='';});
-        document.getElementById('addW').addEventListener('click',async ()=>{const name=document.getElementById('person').value.trim(); const weight=document.getElementById('weight').value; if(!name){alert('이름을 입력하세요');return;} const a=loadW(); if(editingW===null){ a.push({name,weight}); } else { a[editingW]={name,weight}; editingW=null; document.getElementById('addW').textContent='추가'; document.getElementById('cancelW').style.display='none'; } await saveAllW(a); renderW(); document.getElementById('person').value=''; document.getElementById('weight').value='';});
-        renderW();
+      <p>김민호 목표체중 65, 현재 66
+한중현 목표체중 64, 현재 66
+최진우 목표체중 72, 현재 75
+김성훈 목표체중 71, 현재 71 (목표 달성!)
+전승규 목표체중 85, 현재 90
+이주호 목표체중 66, 현재 62
+신동혁 목표체중 66, 현재 67
+</p>
       </script>
     </main>
   </div>
