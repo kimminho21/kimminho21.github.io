@@ -32,156 +32,65 @@
     </aside>
     <main>
       <h1>대회일정</h1>
-      <p>대회 일정을 추가/수정/삭제 할 수 있습니다. 데이터는 브라우저에 저장됩니다.</p>
+      <p>[2026 대회]
+(완) 고양하프마라톤(3/8(일)) : JTBC (고양종합체육관)
+ - 10K : 최진우(49:44), 한중현(51:37), 이주호(48:05), 전승규(01:00:05)
+ - 하프 : 김민호(01:43:30), 신동혁(01:35:05), 김성훈(01:46:56)
 
-      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <input id="evtName" placeholder="대회명" style="padding:6px;min-width:140px" />
-        <input id="evtDist" placeholder="거리 (예: 풀/하프)" style="padding:6px;min-width:100px" />
-        <input id="evtDate" type="date" style="padding:6px" />
-        <input id="evtLoc" placeholder="위치" style="padding:6px;min-width:120px" />
-        <input id="evtPrice" placeholder="가격" style="padding:6px;min-width:80px" />
-        <button id="addEvt">추가</button>
-        <button id="cancelEdit" style="display:none">취소</button>
-      </div>
+(완) 인천국제하프마라톤 (3/22(일)) : 인천문학경기장
+ - 10K : 이주호(46:43)
 
-      <table id="scheduleTable">
-        <thead>
-          <tr><th>대회명</th><th>거리</th><th>날짜</th><th>위치</th><th>가격</th><th>작업</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+(완) 군산 새만금마라톤 (4/5(일)) : 군산월명종합경기장
+ - 10K : 신동혁(00:45:00)
 
-      <script>
-        const SKEY = 'unnuun_schedule_v1';
-        const SERVER_BASE = 'http://localhost:5000';
+(완) 기브앤 레이스 (4/5(일)) : 벤츠(부산 벡스코 → 광안리)
+ - 10k : 이주호(01:06:17)
 
-        async function getServerData(){
-          try{
-            const res = await fetch(SERVER_BASE + '/data');
-            if(res.ok){
-              return await res.json();
-            }
-          }catch(e){ }
-          return null;
-        }
+(완) 안양천 벛꽃 마라톤 (4/12(일)) : 대한생활체육연맹(안양천)
+ - 하프 : 한중현(01:56:23)
 
-        async function loadSchedule(){
-          const serverData = await getServerData();
-          if(serverData){
-            const items = serverData.schedule || [];
-            localStorage.setItem(SKEY, JSON.stringify(items));
-            return items;
-          }
-          const raw = localStorage.getItem(SKEY);
-          return raw ? JSON.parse(raw) : [];
-        }
+(완)  Korea 50K (4/25(토)) : 동두천
+ - 23.4K : 최진우(04:08)
 
-        async function saveSchedule(items){
-          try{
-            const current = (await getServerData()) || { schedule: [], shoes: [], weight: [] };
-            current.schedule = items;
-            const res = await fetch(SERVER_BASE + '/save', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(current)
-            });
-            if(res.ok){
-              localStorage.setItem(SKEY, JSON.stringify(items));
-              return;
-            }
-          }catch(e){ }
-          localStorage.setItem(SKEY, JSON.stringify(items));
-        }
+(완) 서울하프마라톤(4/26(일)) : 조선일보 (광화문 → 상암)
+ - 하프 : 김성훈(01:40), 김민호(01:44)
+ - 10K : 이주호(00:45), 전승규(00:59), 신동혁(00:42), 한중현(00:51)
 
-        async function render(){
-          const tbody = document.querySelector('#scheduleTable tbody');
-          tbody.innerHTML = '';
-          const items = await loadSchedule();
-          items.forEach((it, idx) => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-              <td>${escapeHtml(it.name)}</td>
-              <td>${escapeHtml(it.dist)}</td>
-              <td>${escapeHtml(it.date)}</td>
-              <td>${escapeHtml(it.loc)}</td>
-              <td>${escapeHtml(it.price)}</td>
-              <td>
-                <button data-idx="${idx}" class="editBtn">수정</button>
-                <button data-idx="${idx}" class="delBtn">삭제</button>
-              </td>`;
-            tbody.appendChild(tr);
-          });
-          attachHandlers();
-        }
+(완) 서울신문하프마라톤 (5/16(토) : 서울신문 (상암평화공원->가양대교리턴)
+ - 10K : 신동혁, 한중현, 전승규, 김민호, 김성훈, 이주호, 최진우
 
-        function escapeHtml(s){ return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+(완) 강남 하프 마라톤(5/30일(토)) : 강남구, 강남레이스 조직위원회(대치유수지체육공원-> 영동2교 - 동남권 유통단지 반환)
+- 20k : 한중현(02:02:09)
 
-        function attachHandlers(){
-          document.querySelectorAll('.delBtn').forEach(b => b.onclick = async function(){
-            const i = +this.dataset.idx;
-            const items = await loadSchedule();
-            items.splice(i, 1);
-            await saveSchedule(items);
-            render();
-          });
-          document.querySelectorAll('.editBtn').forEach(b => b.onclick = async function(){
-            const i = +this.dataset.idx;
-            await startEdit(i);
-          });
-        }
+(완)  마인드마라톤 (6/7(일) : 한국수력원자력 (광화문)  (접수 마감)
+ - 하프 : 김민호(01:45), 한중현(01:57)
 
-        let editingIndex = null;
+●  SHP 인사이더런 (8/2(일) 15:00 : (일산 킨텍스) (접수마감)
+ - 10K : 신동혁, 김민호, 이주호, 류호진(객원)
 
-        async function startEdit(i){
-          const items = await loadSchedule();
-          const it = items[i] || {};
-          document.getElementById('evtName').value = it.name || '';
-          document.getElementById('evtDist').value = it.dist || '';
-          document.getElementById('evtDate').value = it.date || '';
-          document.getElementById('evtLoc').value = it.loc || '';
-          document.getElementById('evtPrice').value = it.price || '';
-          editingIndex = i;
-          document.getElementById('addEvt').textContent = '저장';
-          document.getElementById('cancelEdit').style.display = '';
-        }
+●  YTN 서울투어마라톤 (9/6(일) : YTN (서울광장) (접수 마감)
+ - 11K : 신동혁, 김민호, 한중현, 전승규, 최진우(+김한나), 김성훈, 류호진(객원)
 
-        document.getElementById('cancelEdit').addEventListener('click', () => {
-          editingIndex = null;
-          document.getElementById('addEvt').textContent = '추가';
-          document.getElementById('cancelEdit').style.display = 'none';
-          document.getElementById('evtName').value = '';
-          document.getElementById('evtDist').value = '';
-          document.getElementById('evtDate').value = '';
-          document.getElementById('evtLoc').value = '';
-          document.getElementById('evtPrice').value = '';
-        });
+● 2026 런유어웨이(10/4(일) : 뉴발란스(여의도공원) (8/4 결과발표)
+ - 10K 신청 : 김민호, 이주호, 신동혁, 최진우, 전승규, 김성훈, 한중현
 
-        document.getElementById('addEvt').addEventListener('click', async () => {
-          const name = document.getElementById('evtName').value.trim();
-          const dist = document.getElementById('evtDist').value.trim();
-          const date = document.getElementById('evtDate').value;
-          const loc = document.getElementById('evtLoc').value.trim();
-          const price = document.getElementById('evtPrice').value.trim();
-          if(!name){ alert('대회명을 입력하세요'); return; }
-          const items = await loadSchedule();
-          if(editingIndex === null){
-            items.push({ name, dist, date, loc, price });
-          } else {
-            items[editingIndex] = { name, dist, date, loc, price };
-            editingIndex = null;
-            document.getElementById('addEvt').textContent = '추가';
-            document.getElementById('cancelEdit').style.display = 'none';
-          }
-          await saveSchedule(items);
-          render();
-          document.getElementById('evtName').value = '';
-          document.getElementById('evtDist').value = '';
-          document.getElementById('evtDate').value = '';
-          document.getElementById('evtLoc').value = '';
-          document.getElementById('evtPrice').value = '';
-        });
+●  서울오픈마라톤 (10/5(월) : 서울오픈마라톤(광화문) (접수 마감)
+ - 하프 : 김민호, 이주호
 
-        render();
+●  서울레이스 (10/11(일) :  동마클럽(청계광장)  (접수 마감)
+ - 하프 : 신동혁, 한중현
+
+●  춘천마라톤 (10/25(일) : 조선일보 (접수 마감)
+ - FULL : 한중현
+
+●  가민런코리아 (11/15(일) :  가민코리아, 러너블(고양종합운동장) (래플 마감)
+ - 하프 : 김성훈, 한중현
+ - 10K : 전승규
+
+
+예정)  인천마라톤대회 (11/22(일) :  인천광역시 (인천 서구 아시아드경기장)
+ - 풀, 10K
+</p>
       </script>
     </main>
   </div>
