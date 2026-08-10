@@ -1,13 +1,1 @@
-{
-  "type": "service_account",
-  "project_id": "metal-figure-504805-p7",
-  "private_key_id": "8ed1ce7e0dc65a1fad19ddacb6320b4bc502043a",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDhKw7Fxn+ySjk5\nzTcY5le6WOiCptMn+Zld9BPuaFk4aPkbO2+kMCLLlbID2+SjsBcem7vFs+RpIS8U\nAt+t3h+p9an0zQY4KObIwqs/Cu1VsdXOmeMNOflPEmcGrBF69CW4VG1xWyF0P2YC\nKEaDr0KbEUqK7JyJeKdIb+TLEYP3mFOly6bs6bCvVKwjPGzIAy2C7VkOZB/Hqvrq\nd5dxLWQVfWC08cTL8kO7rz2wnm11yD75T+k4Y3T4BL1sSNdGhBK6q4qfs+fCp7ZT\nM6np3EevLqSjH6YJXxIh/VsCjOvag4/IlwHhJpk4k/G/I5jdQBbuOtmMu0btWquL\nIuXqF+AvAgMBAAECggEAIZ5lKUBW5o7QdoHeXRhfNtJ5fLBdzJUmwfFkXG82CwcZ\nUmiQZapON6lVF+BoBcyP1yEXaxBN5ShwOAOp0/LbNWwZgRRvfkkVFBqEqPf/sZDI\nxH0TenESeSzdNxDP11TGoPvyDz+1Af9JQr8ysAyl3DM7tvxW7uuVxmn2dh9aXcgX\nttDE63GmoSPtNvX+n/XlISuXDMAmkGoyTXaaqndroDXqMBTyJBUeNbgL5Wv7bsXY\nOC/Hz1sVunj0qcyfbwd5EL6fnlJcYLEjp0h80sdZrXBPFOIW4mtk5wHkj+QwnyxY\nBks6C4V7F77YI60cxSE9WRBKDjwLovr2p8ZJ7DVrUQKBgQD/vMfW/k0nDMNiWqOi\nz/f5SVneyUCtWSgwCXTCptfSQsj1rZc9fed1dHqQ59BTMXrvROhIQ8+1uVd0XEuY\nECtt2T7fRGzeY4XTe+cLFgQN3eXgZP1flVH7MJkR7ijTp3AbAtcFkwpZaoi31OiD\nEwFYil7UJZEnFPFCEk/v7M2i5wKBgQDhZj36d3qM9o+NXT8kEt91PKusExWZS1rS\n11wKvE8UM08HKqSxgRQV97eniiYrW3mGsowZbhrLrwAw16dm1NdSBKxq+NrPa5kt\nk4Iyy61pfbi6eqSs1wrvlYOxFMo4L858lA+QITpYoIyGN6OXtOVwSX9FnkKW9meJ\nr1Jut1/3eQKBgQCJAXP2RArFTtslx/U+djgc/yT8a8kQlWEoSwiYd5XL+Sd8JuGN\nefQUQrCfDPHYf/uiT8I5ZMrUSlUF66Q79P2vPeGm7xt8EMlTQV/H2qWVYDmU+8WZ\n/X8MGT8IEhUhPuSaM+1J+TpkKOTRx2hBQF9KNecTtISM8XVGtlTI7o5EJQKBgGGM\nSSh7yur0zj3E7E2laVYosrde7wsP5Le5ApmW07aPWhVk7C/yCApV0gLNNCWxig+0\neBONZkVecHuy6T0Ewkc5xJDrMG9yRrHF1CQ9p8gu4+K4r0oqKw5zK7JYqAfXEMsz\nnOSorMKsgQSZUdCXNnD5Lf6oNnN1ImwhF1DZRcwpAoGBAJ3UdZKedyh+lsZOn9bc\nAi5AtnyoEeRVBeQYUno9PahLPGhriI9EwANMRmxJ1J/HkJAUGoEu6oOOBygHngin\nA6mbpY/Re2BmJy/Mf57M1MTecHqxcGqrhkq3TP6LiQmEXKtWM22hnHWF3SiPTOjR\nntmEqvlKai8d7r2wjQvoSSpl\n-----END PRIVATE KEY-----\n",
-  "client_email": "kimminho21@metal-figure-504805-p7.iam.gserviceaccount.com",
-  "client_id": "114999547399680380064",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/kimminho21%40metal-figure-504805-p7.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com"
-}
+
