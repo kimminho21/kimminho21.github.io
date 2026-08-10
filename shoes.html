@@ -4,54 +4,53 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>신발현황</title>
-  <style>
-    body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Noto Sans KR',Arial;margin:0;background:#fff;color:#111}
-    .layout{display:flex;min-height:100vh}
-    aside{width:220px;background:#f7fafc;border-right:1px solid #e6edf3;padding:18px;box-sizing:border-box}
-    nav a{display:block;padding:10px 12px;margin:6px 0;border-radius:6px;color:#0b5;text-decoration:none}
-    nav a:hover{background:#e6f6ef}
-    main{flex:1;padding:24px}
-    table{width:100%;border-collapse:collapse;margin-top:12px}
-    th,td{border:1px solid #e2e8f0;padding:8px;text-align:left}
-    th{background:#f7fafc}
-    footer{padding:12px 18px;font-size:13px;color:#666;border-top:1px solid #eee}
-    @media(max-width:700px){aside{display:none}}
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="layout">
-    <aside>
-      <h2 style="font-size:16px;margin:0 0 12px">언누운크루</h2>
-      <nav>
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-badge">UNNUUN CREW</span>
+        <h2 class="brand-name">언누운크루</h2>
+        <p class="brand-sub">마라톤 도우미</p>
+      </div>
+      <nav class="menu">
         <a href="index.html">홈</a>
         <a href="unnuun.html">언누운크루 소개</a>
         <a href="schedule.html">대회일정</a>
-        <a href="shoes.html">신발현황</a>
+        <a href="shoes.html" class="active">신발현황</a>
         <a href="care.html">몸관리</a>
       </nav>
+      <div class="sidebar-foot">각 항목을 클릭하면 해당 페이지로 이동합니다.</div>
     </aside>
     <main>
-      <h1>신발현황</h1>
-      <p>(러닝신발)</p><p>
-김민호 - 에보슬(슈),  노블5(올), 슈블3(올), 알파3(카), 프로4(카), 프로4(카, 입원중)</p><p>
-</p> <p>
-최진우 - 템퍼스1(안), 템퍼스2(안), 젤카야노31(안), 레벨v4(올), 1080v13(쿠), 디나엘3(카), 슈블3(올)</p><p>
-</p> <p>
-이용규 - 원믹스(쿠), 디나3(슈)</p><p>
-  </p> <p>
-이주호 - 노블5(올), 엔스4(슈), 줌플6(카), 프로4(카), 알파3(카), 에보슬(슈), 보플(쿠), 프로4(카)</p><p>
-  </p> <p>
-전승규 - 템퍼스1(안), 슈블2(슈), 메블(슈), 슈블3(슈), 알파3(카)</p><p>
-  </p> <p>
-신동혁 - 에보슬(슈), 엔프4(카), 디나엘3(카), 프로4(카), 알파3(카), 적토끼(슈), 노블6(올), 보플(쿠)</p><p>
-  </p> <p>
-김성훈 - 젤님버스26(쿠), 노블5(올), 에보슬(슈), 디나엘4(카), 알파3(카), 슈블3(올), 노블6(올)</p><p>
-  </p> <p>
-한중현 - 보플(쿠), 알파3(카), 프로4(카), 슈블2(슈) </p><p>
-  </p> <p>
-※(안)정화/(올)라운더/(쿠)션화/(슈)퍼트레이닝화/(카)카본화
+      <div class="content-wrap">
+        <div class="page-head">
+          <span class="eyebrow">Shoe Rotation</span>
+          <h1>신발현황</h1>
+        </div>
+        <div class="card">
+<p class="entry">(러닝신발)</p><p class="entry">
+김민호 - 에보슬(슈),  노블5(올), 슈블3(올), 알파3(카), 프로4(카), 프로4(카, 입원중)</p><p class="entry">
+</p> <p class="entry">
+최진우 - 템퍼스1(안), 템퍼스2(안), 젤카야노31(안), 레벨v4(올), 1080v13(쿠), 디나엘3(카), 슈블3(올)</p><p class="entry">
+</p> <p class="entry">
+이용규 - 원믹스(쿠), 디나3(슈)</p><p class="entry">
+  </p> <p class="entry">
+이주호 - 노블5(올), 엔스4(슈), 줌플6(카), 프로4(카), 알파3(카), 에보슬(슈), 보플(쿠), 프로4(카)</p><p class="entry">
+  </p> <p class="entry">
+전승규 - 템퍼스1(안), 슈블2(슈), 메블(슈), 슈블3(슈), 알파3(카)</p><p class="entry">
+  </p> <p class="entry">
+신동혁 - 에보슬(슈), 엔프4(카), 디나엘3(카), 프로4(카), 알파3(카), 적토끼(슈), 노블6(올), 보플(쿠)</p><p class="entry">
+  </p> <p class="entry">
+김성훈 - 젤님버스26(쿠), 노블5(올), 에보슬(슈), 디나엘4(카), 알파3(카), 슈블3(올), 노블6(올)</p><p class="entry">
+  </p> <p class="entry">
+한중현 - 보플(쿠), 알파3(카), 프로4(카), 슈블2(슈) </p><p class="entry">
+  </p>
+<p class="legend">※(안)정화/(올)라운더/(쿠)션화/(슈)퍼트레이닝화/(카)카본화
 </p>
-      </script>
+        </div>
+      </div>
     </main>
   </div>
   <footer>© 언누운크루</footer>
