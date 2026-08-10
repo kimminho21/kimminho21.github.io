@@ -1,0 +1,294 @@
+/* =========================================================
+   언누운크루 — Design System
+   Concept: 러너의 레이스 비브(경주 번호표) + 야간 트랙 조명
+   ========================================================= */
+
+:root{
+  --bg:            #14171b;   /* 아스팔트 야간 트랙 */
+  --bg-sidebar:    #101215;
+  --surface:       #1c2024;
+  --surface-2:     #232830;
+  --border:        #2c3138;
+  --text:          #eef1f3;
+  --text-muted:    #96a1ab;
+  --text-faint:    #626b74;
+  --accent:        #ffc93c;   /* 피니시 라인 옐로우 */
+  --accent-dim:    #3a3018;
+  --accent-ink:    #171400;
+  --success:       #4fd18b;
+  --success-dim:   #163625;
+  --font-kr: system-ui, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic',
+             'Segoe UI', Roboto, 'Noto Sans KR', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+*{ box-sizing: border-box; }
+html{ -webkit-text-size-adjust: 100%; }
+
+body{
+  margin:0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-kr);
+  line-height: 1.65;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+a{ color: inherit; }
+
+/* ---------- Layout ---------- */
+.layout{ display:flex; min-height:100vh; }
+
+aside.sidebar{
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  padding: 28px 20px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.brand{ display:flex; flex-direction:column; gap:10px; }
+.brand-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  width: fit-content;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: .08em;
+  padding: 4px 9px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+.brand-name{
+  margin:0;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+.brand-sub{
+  margin:0;
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+nav.menu{
+  counter-reset: navcount;
+  display:flex;
+  flex-direction: column;
+  gap: 4px;
+}
+nav.menu a{
+  counter-increment: navcount;
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 14px;
+  transition: background .15s ease, color .15s ease;
+}
+nav.menu a::before{
+  content: counter(navcount, decimal-leading-zero);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-faint);
+  width: 20px;
+  flex-shrink:0;
+}
+nav.menu a:hover{ background: var(--surface); color: var(--text); }
+nav.menu a.active{
+  background: var(--accent-dim);
+  color: var(--accent);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+nav.menu a.active::before{ color: var(--accent); }
+
+.sidebar-foot{
+  margin-top: auto;
+  font-size: 12px;
+  color: var(--text-faint);
+  padding-top: 16px;
+  border-top: 1px dashed var(--border);
+}
+
+/* ---------- Main content ---------- */
+main{
+  flex: 1;
+  min-width: 0;
+  padding: 48px 56px;
+}
+.content-wrap{ max-width: 880px; margin: 0 auto; }
+
+.page-head{
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px dashed var(--border);
+}
+.eyebrow{
+  display:inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.page-head h1{
+  margin: 0;
+  font-size: 30px;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
+.card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 30px 34px;
+}
+
+.entry{
+  margin: 0 0 14px;
+  color: var(--text);
+  font-size: 15px;
+}
+.entry:empty{ display:none; }
+
+.card h2{
+  font-size: 16px;
+  color: #fff;
+  margin: 28px 0 12px;
+}
+.card ul{
+  margin: 0;
+  padding-left: 20px;
+  color: var(--text-muted);
+}
+.card ul li{ margin: 6px 0; }
+
+.legend{
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border);
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+/* ---------- Home hero ---------- */
+.hero-stage{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height: 76vh;
+  padding: 24px;
+}
+.hero{
+  position: relative;
+  overflow: hidden;
+  text-align:center;
+  max-width: 760px;
+  padding: 56px 48px;
+  border-radius: 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.hero::before{
+  /* 피니시 라인 체크무늬 코너 장식 */
+  content:"";
+  position:absolute;
+  top:-40px; right:-40px;
+  width:140px; height:140px;
+  background-image:
+    linear-gradient(45deg, var(--accent) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--accent) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--accent) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--accent) 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  opacity: 0.9;
+  transform: rotate(20deg);
+  border-radius: 8px;
+  mask-image: radial-gradient(circle at 70% 30%, black 55%, transparent 75%);
+}
+.hero-tag{
+  position:relative;
+  display:inline-flex;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.hero h1{
+  position:relative;
+  font-size: 38px;
+  line-height: 1.2;
+  margin: 0;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+.hero p{
+  position:relative;
+  margin-top: 16px;
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+/* ---------- Footer ---------- */
+footer{
+  padding: 18px 24px;
+  font-size: 12px;
+  color: var(--text-faint);
+  border-top: 1px dashed var(--border);
+  text-align:center;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 800px){
+  main{ padding: 32px 20px; }
+  .card{ padding: 22px 20px; }
+  .hero{ padding: 40px 26px; }
+  .hero h1{ font-size: 28px; }
+}
+
+@media (max-width: 700px){
+  .layout{ flex-direction: column; }
+  aside.sidebar{
+    position: static;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    overflow-x: auto;
+  }
+  .brand{ flex-direction: row; align-items:center; gap:10px; flex-shrink:0; }
+  .brand-sub{ display:none; }
+  nav.menu{
+    flex-direction: row;
+    gap: 6px;
+  }
+  nav.menu a{ padding: 8px 10px; white-space: nowrap; }
+  nav.menu a::before{ display:none; }
+  .sidebar-foot{ display:none; }
+}
