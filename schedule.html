@@ -4,94 +4,93 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>대회일정</title>
-  <style>
-    body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Noto Sans KR',Arial;margin:0;background:#fff;color:#111}
-    .layout{display:flex;min-height:100vh}
-    aside{width:220px;background:#f7fafc;border-right:1px solid #e6edf3;padding:18px;box-sizing:border-box}
-    nav a{display:block;padding:10px 12px;margin:6px 0;border-radius:6px;color:#0b5;text-decoration:none}
-    nav a:hover{background:#e6f6ef}
-    main{flex:1;padding:24px}
-    table{width:100%;border-collapse:collapse;margin-top:12px}
-    th,td{border:1px solid #e2e8f0;padding:8px;text-align:left}
-    th{background:#f7fafc}
-    footer{padding:12px 18px;font-size:13px;color:#666;border-top:1px solid #eee}
-    @media(max-width:700px){aside{display:none}}
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="layout">
-    <aside>
-      <h2 style="font-size:16px;margin:0 0 12px">언누운크루</h2>
-      <nav>
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-badge">UNNUUN CREW</span>
+        <h2 class="brand-name">언누운크루</h2>
+        <p class="brand-sub">마라톤 도우미</p>
+      </div>
+      <nav class="menu">
         <a href="index.html">홈</a>
         <a href="unnuun.html">언누운크루 소개</a>
-        <a href="schedule.html">대회일정</a>
+        <a href="schedule.html" class="active">대회일정</a>
         <a href="shoes.html">신발현황</a>
         <a href="care.html">몸관리</a>
       </nav>
+      <div class="sidebar-foot">각 항목을 클릭하면 해당 페이지로 이동합니다.</div>
     </aside>
     <main>
-      <h1>대회일정</h1>
-      <p>[2026 대회]</p><p>
-(완) 고양하프마라톤(3/8(일)) : JTBC (고양종합체육관)</p><p>
- - 10K : 최진우(49:44), 한중현(51:37), 이주호(48:05), 전승규(01:00:05)</p><p>
- - 하프 : 김민호(01:43:30), 신동혁(01:35:05), 김성훈(01:46:56)</p><p>
-</p><p>
-(완) 인천국제하프마라톤 (3/22(일)) : 인천문학경기장</p><p>
- - 10K : 이주호(46:43)</p><p>
-</p><p>
-(완) 군산 새만금마라톤 (4/5(일)) : 군산월명종합경기장</p><p>
- - 10K : 신동혁(00:45:00)</p><p>
-</p><p>
-(완) 기브앤 레이스 (4/5(일)) : 벤츠(부산 벡스코 → 광안리)</p><p>
- - 10k : 이주호(01:06:17)</p><p>
-</p><p>
-(완) 안양천 벛꽃 마라톤 (4/12(일)) : 대한생활체육연맹(안양천)</p><p>
- - 하프 : 한중현(01:56:23)</p><p>
-</p><p>
-(완)  Korea 50K (4/25(토)) : 동두천</p><p>
- - 23.4K : 최진우(04:08)</p><p>
-</p><p>
-(완) 서울하프마라톤(4/26(일)) : 조선일보 (광화문 → 상암)</p><p>
- - 하프 : 김성훈(01:40), 김민호(01:44)</p><p>
- - 10K : 이주호(00:45), 전승규(00:59), 신동혁(00:42), 한중현(00:51)</p><p>
-</p> <p>
-(완) 서울신문하프마라톤 (5/16(토) : 서울신문 (상암평화공원->가양대교리턴)</p><p>
- - 10K : 신동혁, 한중현, 전승규, 김민호, 김성훈, 이주호, 최진우</p><p>
-</p> <p>
-(완) 강남 하프 마라톤(5/30일(토)) : 강남구, 강남레이스 조직위원회(대치유수지체육공원-> 영동2교 - 동남권 유통단지 반환)</p><p>
-- 20k : 한중현(02:02:09)</p><p>
-</p> <p>
-(완)  마인드마라톤 (6/7(일) : 한국수력원자력 (광화문)  (접수 마감)</p><p>
- - 하프 : 김민호(01:45), 한중현(01:57)</p><p>
-</p> <p>
-(완) SHP 인사이더런 (8/2(일) 15:00 : (일산 킨텍스) (접수마감)</p><p>
- - 10K : 신동혁(44:06), 이주호(44:06), 김민호(46:20), 류호진(47:50)</p><p>
-</p> <p>
-●  YTN 서울투어마라톤 (9/6(일) : YTN (서울광장) (접수 마감)</p><p>
- - 11K : 신동혁, 김민호, 한중현, 전승규, 최진우(+김한나), 김성훈, 류호진(객원)</p><p>
-</p> <p>
-● 2026 런유어웨이(10/4(일) : 뉴발란스(여의도공원) (접수 마감)</p><p>
- - 10K : 신동혁</p><p>
-</p> <p>
-●  서울오픈마라톤 (10/5(월) : 서울오픈마라톤(광화문) (접수 마감)</p><p>
- - 하프 : 김민호, 이주호</p><p>
-</p> <p>
-●  서울레이스 (10/11(일) :  동마클럽(청계광장)  (접수 마감)</p><p>
- - 하프 : 신동혁, 한중현</p><p>
-</p> <p>
-●  춘천마라톤 (10/25(일) : 조선일보 (접수 마감)</p><p>
- - FULL : 한중현</p><p>
-</p> <p>
-●  가민런코리아 (11/15(일) :  가민코리아, 러너블(고양종합운동장) (래플 마감)</p><p>
- - 하프 : 김성훈, 한중현</p><p>
- - 10K : 전승규</p><p>
-</p> <p>
-</p> <p>
-예정)  인천마라톤대회 (11/22(일) :  인천광역시 (인천 서구 아시아드경기장)</p><p>
- - 풀, 10K</p><p>
+      <div class="content-wrap">
+        <div class="page-head">
+          <span class="eyebrow">Race Schedule</span>
+          <h1>대회일정</h1>
+        </div>
+        <div class="card">
+<p class="entry">[2026 대회]</p><p class="entry">
+(완) 고양하프마라톤(3/8(일)) : JTBC (고양종합체육관)</p><p class="entry">
+ - 10K : 최진우(49:44), 한중현(51:37), 이주호(48:05), 전승규(01:00:05)</p><p class="entry">
+ - 하프 : 김민호(01:43:30), 신동혁(01:35:05), 김성훈(01:46:56)</p><p class="entry">
+</p><p class="entry">
+(완) 인천국제하프마라톤 (3/22(일)) : 인천문학경기장</p><p class="entry">
+ - 10K : 이주호(46:43)</p><p class="entry">
+</p><p class="entry">
+(완) 군산 새만금마라톤 (4/5(일)) : 군산월명종합경기장</p><p class="entry">
+ - 10K : 신동혁(00:45:00)</p><p class="entry">
+</p><p class="entry">
+(완) 기브앤 레이스 (4/5(일)) : 벤츠(부산 벡스코 → 광안리)</p><p class="entry">
+ - 10k : 이주호(01:06:17)</p><p class="entry">
+</p><p class="entry">
+(완) 안양천 벛꽃 마라톤 (4/12(일)) : 대한생활체육연맹(안양천)</p><p class="entry">
+ - 하프 : 한중현(01:56:23)</p><p class="entry">
+</p><p class="entry">
+(완)  Korea 50K (4/25(토)) : 동두천</p><p class="entry">
+ - 23.4K : 최진우(04:08)</p><p class="entry">
+</p><p class="entry">
+(완) 서울하프마라톤(4/26(일)) : 조선일보 (광화문 → 상암)</p><p class="entry">
+ - 하프 : 김성훈(01:40), 김민호(01:44)</p><p class="entry">
+ - 10K : 이주호(00:45), 전승규(00:59), 신동혁(00:42), 한중현(00:51)</p><p class="entry">
+</p> <p class="entry">
+(완) 서울신문하프마라톤 (5/16(토) : 서울신문 (상암평화공원->가양대교리턴)</p><p class="entry">
+ - 10K : 신동혁, 한중현, 전승규, 김민호, 김성훈, 이주호, 최진우</p><p class="entry">
+</p> <p class="entry">
+(완) 강남 하프 마라톤(5/30일(토)) : 강남구, 강남레이스 조직위원회(대치유수지체육공원-> 영동2교 - 동남권 유통단지 반환)</p><p class="entry">
+- 20k : 한중현(02:02:09)</p><p class="entry">
+</p> <p class="entry">
+(완)  마인드마라톤 (6/7(일) : 한국수력원자력 (광화문)  (접수 마감)</p><p class="entry">
+ - 하프 : 김민호(01:45), 한중현(01:57)</p><p class="entry">
+</p> <p class="entry">
+(완) SHP 인사이더런 (8/2(일) 15:00 : (일산 킨텍스) (접수마감)</p><p class="entry">
+ - 10K : 신동혁(44:06), 이주호(44:06), 김민호(46:20), 류호진(47:50)</p><p class="entry">
+</p> <p class="entry">
+●  YTN 서울투어마라톤 (9/6(일) : YTN (서울광장) (접수 마감)</p><p class="entry">
+ - 11K : 신동혁, 김민호, 한중현, 전승규, 최진우(+김한나), 김성훈, 류호진(객원)</p><p class="entry">
+</p> <p class="entry">
+● 2026 런유어웨이(10/4(일) : 뉴발란스(여의도공원) (접수 마감)</p><p class="entry">
+ - 10K : 신동혁</p><p class="entry">
+</p> <p class="entry">
+●  서울오픈마라톤 (10/5(월) : 서울오픈마라톤(광화문) (접수 마감)</p><p class="entry">
+ - 하프 : 김민호, 이주호</p><p class="entry">
+</p> <p class="entry">
+●  서울레이스 (10/11(일) :  동마클럽(청계광장)  (접수 마감)</p><p class="entry">
+ - 하프 : 신동혁, 한중현</p><p class="entry">
+</p> <p class="entry">
+●  춘천마라톤 (10/25(일) : 조선일보 (접수 마감)</p><p class="entry">
+ - FULL : 한중현</p><p class="entry">
+</p> <p class="entry">
+●  가민런코리아 (11/15(일) :  가민코리아, 러너블(고양종합운동장) (래플 마감)</p><p class="entry">
+ - 하프 : 김성훈, 한중현</p><p class="entry">
+ - 10K : 전승규</p><p class="entry">
+</p> <p class="entry">
+</p> <p class="entry">
+예정)  인천마라톤대회 (11/22(일) :  인천광역시 (인천 서구 아시아드경기장)</p><p class="entry">
+ - 풀, 10K</p><p class="entry">
 </p>
-      </script>
+        </div>
+      </div>
     </main>
   </div>
   <footer>© 언누운크루</footer>
