@@ -1,32 +1,43 @@
 /* ===========================================================
    언누운크루 · UNNUUN CREW
-   컨셉: 러닝 대회 "배번(Bib)" — 상암을 근거지로 삼은 러닝크루의
-   출발선 배번표를 웹페이지로 옮겨온 디자인.
+   GitHub 스타일 (화이트 배경 + 얇은 보더 + 파스텔 라벨)
    =========================================================== */
 
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css');
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap');
 
 :root{
-  --paper:#F6F4EC;
-  --paper-dim:#EFEBDF;
-  --ink:#17181C;
-  --ink-soft:#53565f;
-  --race:#E14330;
-  --lane:#FFC13B;
-  --mint:#0BA463;
-  --line:#DBD6C6;
-  --radius:14px;
+  --canvas:#FFFFFF;
+  --canvas-subtle:#F6F8FA;
+  --canvas-inset:#F6F8FA;
+  --border:#D0D7DE;
+  --border-muted:#D8DEE4;
+  --fg:#1F2328;
+  --fg-muted:#59636E;
+  --fg-subtle:#818B98;
+  --accent:#0969DA;
+  --accent-subtle:#DDF4FF;
+  --success:#1A7F37;
+  --success-subtle:#DAFBE1;
+  --attention:#9A6700;
+  --attention-subtle:#FFF8C5;
+  --danger:#CF222E;
+  --danger-subtle:#FFEBE9;
+  --done:#8250DF;
+  --done-subtle:#FBEFFF;
+  --radius:6px;
+  --sidebar-w:236px;
+  --mono:ui-monospace,'SFMono-Regular',Consolas,'Liberation Mono',Menlo,monospace;
 }
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
   margin:0;
-  background:var(--paper);
-  color:var(--ink);
-  font-family:'Pretendard Variable','Pretendard',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+  background:var(--canvas-subtle);
+  color:var(--fg);
+  font-family:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
   line-height:1.5;
+  font-size:14px;
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -36,259 +47,211 @@ body{
 /* ---------- layout ---------- */
 .layout{display:flex;min-height:100vh}
 
-/* ---------- sidebar : 배번 스텁(Bib stub) ---------- */
+/* ---------- 모바일 메뉴 토글 (체크박스 트릭, JS 없이 동작) ---------- */
+.nav-toggle{display:none}
+.nav-toggle-btn{display:none}
+.nav-overlay{display:none}
+
+/* ---------- sidebar : GitHub 저장소 좌측 패널 느낌 ---------- */
 .sidebar{
-  width:230px;
+  width:var(--sidebar-w);
   flex-shrink:0;
-  background:var(--ink);
-  color:var(--paper);
-  padding:26px 20px 20px;
+  background:var(--canvas);
+  color:var(--fg);
+  padding:24px 16px 20px;
   display:flex;
   flex-direction:column;
-  position:relative;
+  border-right:1px solid var(--border);
 }
-.sidebar::after{
-  /* 절취선 느낌의 오른쪽 경계 */
-  content:"";
-  position:absolute;
-  top:0; right:0; bottom:0;
-  width:1px;
-  background-image:linear-gradient(var(--paper-dim) 60%, transparent 0%);
-  background-size:1px 10px;
-  background-repeat:repeat-y;
-  opacity:.35;
-}
-.brand{padding-bottom:18px;margin-bottom:10px;border-bottom:1px dashed rgba(246,244,236,.28)}
+.brand{padding-bottom:16px;margin-bottom:12px;border-bottom:1px solid var(--border)}
 .brand-badge{
   display:inline-block;
-  font-family:'Space Mono',monospace;
-  font-size:10.5px;
-  letter-spacing:.14em;
-  color:var(--ink);
-  background:var(--lane);
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.02em;
+  color:var(--accent);
+  background:var(--accent-subtle);
+  border:1px solid transparent;
   padding:3px 8px;
-  border-radius:4px;
-  font-weight:700;
+  border-radius:999px;
+  font-weight:600;
 }
 .brand-name{
-  font-family:'Anton',sans-serif;
-  font-weight:400;
-  font-size:26px;
-  letter-spacing:.01em;
+  font-weight:600;
+  font-size:18px;
+  letter-spacing:-.01em;
   margin:12px 0 2px;
-  color:var(--paper);
+  color:var(--fg);
 }
 .brand-sub{
   margin:0;
-  font-size:12.5px;
-  color:rgba(246,244,236,.6);
-  font-family:'Space Mono',monospace;
-  letter-spacing:.03em;
+  font-size:12px;
+  color:var(--fg-muted);
+  letter-spacing:.01em;
 }
 
-.menu{display:flex;flex-direction:column;gap:2px;margin-top:6px}
+.menu{display:flex;flex-direction:column;gap:1px;margin-top:6px}
 .menu a{
   position:relative;
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:11px 10px 11px 4px;
-  color:rgba(246,244,236,.72);
+  padding:7px 10px;
+  margin:0 -10px;
+  border-radius:var(--radius);
+  color:var(--fg-muted);
   text-decoration:none;
-  font-size:14.5px;
-  font-weight:600;
-  border-bottom:1px dashed rgba(246,244,236,.16);
-  transition:color .15s ease, padding-left .15s ease;
+  font-size:14px;
+  font-weight:500;
+  transition:background .1s ease, color .1s ease;
 }
-.menu a::before{
+.menu a:hover{color:var(--fg);background:var(--canvas-subtle)}
+.menu a.active{color:var(--fg);background:var(--accent-subtle);font-weight:600}
+.menu a.active::before{
   content:"";
-  width:6px;height:6px;
-  border-radius:50%;
-  background:rgba(246,244,236,.3);
-  flex-shrink:0;
-  transition:background .15s ease, transform .15s ease;
+  position:absolute;left:-1px;top:6px;bottom:6px;
+  width:2px;border-radius:2px;
+  background:var(--accent);
 }
-.menu a:hover{color:var(--paper);padding-left:9px}
-.menu a:hover::before{background:var(--lane)}
-.menu a.active{color:var(--paper)}
-.menu a.active::before{background:var(--race);transform:scale(1.25)}
-.menu a:focus-visible{outline:2px solid var(--lane);outline-offset:2px}
+.menu a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 .sidebar-foot{
   margin-top:auto;
   padding-top:16px;
   font-size:11.5px;
-  color:rgba(246,244,236,.45);
+  color:var(--fg-subtle);
   line-height:1.6;
+  border-top:1px solid var(--border);
 }
 
 /* ---------- main ---------- */
-main{flex:1;min-width:0;padding:48px clamp(20px,4vw,64px) 64px}
+main{flex:1;min-width:0;padding:32px clamp(20px,4vw,48px) 56px}
 
-/* ---------- hero : 배번(Bib) 카드 ---------- */
-.hero-stage{
-  display:flex;
-  justify-content:center;
-  padding:20px 0 8px;
-}
+/* ---------- hero ---------- */
+.hero-stage{display:flex;justify-content:center;padding:8px 0}
 .hero{
-  position:relative;
   width:100%;
   max-width:760px;
-  background:var(--paper);
-  border:2px dashed var(--ink);
-  border-radius:10px;
-  padding:52px 44px 44px;
+  background:var(--canvas);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:48px 40px;
   text-align:center;
-  box-shadow:0 1px 0 rgba(0,0,0,.02);
 }
-/* 배번을 고정한 안전핀 */
-.hero::before,.hero::after{
-  content:"";
-  position:absolute;
-  top:-9px;
-  width:16px;height:16px;
-  border-radius:50%;
-  background:var(--paper);
-  border:2px solid var(--ink);
-  box-shadow:inset 0 0 0 3px var(--paper), 0 0 0 1px var(--paper);
-}
-.hero::before{left:34px}
-.hero::after{right:34px}
-
 .hero-tag{
   display:inline-block;
-  font-family:'Space Mono',monospace;
+  font-family:var(--mono);
   font-size:12px;
-  letter-spacing:.16em;
-  color:var(--race);
-  border:1px solid var(--race);
-  padding:5px 12px;
+  letter-spacing:.02em;
+  color:var(--accent);
+  background:var(--accent-subtle);
+  padding:4px 12px;
   border-radius:999px;
   margin-bottom:22px;
+  font-weight:600;
 }
 .hero h1{
-  font-family:'Anton',sans-serif;
-  font-weight:400;
-  font-size:clamp(30px,4.4vw,46px);
-  line-height:1.18;
-  margin:0 0 16px;
-  color:var(--ink);
+  font-weight:600;
+  font-size:clamp(24px,3.6vw,34px);
+  line-height:1.25;
+  margin:0 0 12px;
+  color:var(--fg);
+  letter-spacing:-.01em;
 }
 .hero p{
   margin:0 auto;
   max-width:480px;
-  color:var(--ink-soft);
-  font-size:16px;
+  color:var(--fg-muted);
+  font-size:15px;
 }
 .hero-num{
-  margin-top:28px;
-  font-family:'Anton',sans-serif;
-  font-size:13px;
-  letter-spacing:.3em;
-  color:var(--ink-soft);
-  opacity:.55;
+  margin-top:22px;
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.1em;
+  color:var(--fg-subtle);
 }
 
 /* ---------- section heading ---------- */
-.section-head{
-  display:flex;
-  align-items:baseline;
-  gap:12px;
-  margin:56px 0 6px;
-}
+.section-head{display:flex;align-items:baseline;gap:10px;margin:44px 0 6px}
 .section-head .eyebrow{
-  font-family:'Space Mono',monospace;
+  font-family:var(--mono);
   font-size:12px;
-  letter-spacing:.14em;
-  color:var(--mint);
-  font-weight:700;
+  letter-spacing:.02em;
+  color:var(--accent);
+  font-weight:600;
 }
-.section-head h2{
-  font-family:'Anton',sans-serif;
-  font-weight:400;
-  font-size:22px;
-  margin:0;
-  color:var(--ink);
-}
-.section-sub{
-  margin:0 0 22px;
-  color:var(--ink-soft);
-  font-size:14px;
-}
+.section-head h2{font-weight:600;font-size:18px;margin:0;color:var(--fg)}
+.section-sub{margin:0 0 18px;color:var(--fg-muted);font-size:13px}
 
-/* ---------- split board : 페이스 기록표 ---------- */
+/* ---------- split board : 페이스 기록표 (GitHub 코드블록 느낌) ---------- */
 .split-board{
-  background:var(--ink);
+  background:var(--canvas);
+  border:1px solid var(--border);
   border-radius:var(--radius);
-  padding:6px;
   overflow-x:auto;
 }
 table.pace-table{
   width:100%;
   min-width:560px;
   border-collapse:collapse;
-  font-family:'Space Mono',monospace;
 }
 table.pace-table caption{
   text-align:left;
-  color:var(--paper);
-  font-family:'Pretendard Variable',sans-serif;
-  font-weight:700;
+  color:var(--fg);
+  font-weight:600;
   font-size:13px;
-  letter-spacing:.02em;
-  padding:14px 16px 10px;
+  letter-spacing:.01em;
+  padding:12px 16px;
+  border-bottom:1px solid var(--border);
+  background:var(--canvas-subtle);
 }
 table.pace-table th,
 table.pace-table td{
-  padding:12px 14px;
+  padding:10px 14px;
   text-align:center;
-  font-size:14.5px;
-  color:var(--paper);
+  font-size:13.5px;
+  color:var(--fg);
+  font-family:var(--mono);
 }
 table.pace-table thead th{
   font-size:11px;
-  letter-spacing:.08em;
-  color:rgba(246,244,236,.55);
-  font-weight:400;
-  border-bottom:1px solid rgba(246,244,236,.18);
-  padding-bottom:10px;
+  letter-spacing:.02em;
+  color:var(--fg-muted);
+  font-weight:600;
+  border-bottom:1px solid var(--border);
+  padding-bottom:9px;
+  font-family:'Pretendard Variable',sans-serif;
 }
 table.pace-table thead th:first-child{text-align:left;padding-left:16px}
 table.pace-table tbody td:first-child{
   text-align:left;
   padding-left:16px;
-  color:var(--lane);
-  font-weight:700;
+  color:var(--accent);
+  font-weight:600;
 }
-table.pace-table tbody tr{
-  border-bottom:1px solid rgba(246,244,236,.08);
-  transition:background .12s ease;
-}
+table.pace-table tbody tr{border-bottom:1px solid var(--border)}
 table.pace-table tbody tr:last-child{border-bottom:none}
-table.pace-table tbody tr:hover{background:rgba(255,255,255,.045)}
-table.pace-table tbody tr:hover td:first-child{color:var(--mint)}
+table.pace-table tbody tr:hover{background:var(--canvas-subtle)}
 
 .board-note{
   display:flex;
   gap:8px;
   align-items:flex-start;
-  margin-top:14px;
-  color:var(--ink-soft);
-  font-size:13px;
+  margin-top:12px;
+  color:var(--fg-muted);
+  font-size:12.5px;
 }
 .board-note .dot{
   width:6px;height:6px;border-radius:50%;
-  background:var(--race);
+  background:var(--accent);
   margin-top:6px;flex-shrink:0;
 }
 
 footer{
   padding:16px 24px;
-  font-size:12.5px;
-  color:var(--ink-soft);
-  border-top:1px dashed var(--line);
-  font-family:'Space Mono',monospace;
+  font-size:12px;
+  color:var(--fg-subtle);
+  border-top:1px solid var(--border);
   text-align:center;
 }
 
@@ -297,128 +260,93 @@ footer{
    =========================================================== */
 .content-wrap{max-width:900px;margin:0 auto}
 
-.page-head{margin-bottom:30px}
+.page-head{margin-bottom:24px}
 .page-head .eyebrow{
   display:block;
-  font-family:'Space Mono',monospace;
+  font-family:var(--mono);
   font-size:12px;
-  letter-spacing:.16em;
-  color:var(--mint);
-  font-weight:700;
-  margin-bottom:8px;
+  letter-spacing:.02em;
+  color:var(--accent);
+  font-weight:600;
+  margin-bottom:6px;
 }
-.page-head h1{
-  font-family:'Anton',sans-serif;
-  font-weight:400;
-  font-size:clamp(26px,3.6vw,34px);
-  margin:0;
-  color:var(--ink);
-}
+.page-head h1{font-weight:600;font-size:clamp(20px,2.8vw,26px);margin:0;color:var(--fg)}
 
 .card{
-  background:var(--paper);
-  border:1px solid var(--line);
+  background:var(--canvas);
+  border:1px solid var(--border);
   border-radius:var(--radius);
-  padding:30px 32px;
+  padding:24px 28px;
 }
-.card + .card{margin-top:18px}
-.card h2{
-  font-family:'Anton',sans-serif;
-  font-weight:400;
-  font-size:18px;
-  margin:0 0 14px;
-  color:var(--ink);
-}
-.entry{margin:0 0 10px;color:var(--ink-soft);font-size:15px;line-height:1.65}
+.card + .card{margin-top:16px}
+.card h2{font-weight:600;font-size:15px;margin:0 0 12px;color:var(--fg)}
+.entry{margin:0 0 10px;color:var(--fg-muted);font-size:14px;line-height:1.65}
 .entry:last-child{margin-bottom:0}
 
-.list-check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
-.list-check li{
-  position:relative;
-  padding-left:22px;
-  color:var(--ink-soft);
-  font-size:15px;
-}
+.list-check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.list-check li{position:relative;padding-left:20px;color:var(--fg-muted);font-size:14px}
 .list-check li::before{
   content:"";
-  position:absolute;left:0;top:8px;
-  width:7px;height:7px;border-radius:50%;
-  background:var(--lane);
+  position:absolute;left:0;top:7px;
+  width:6px;height:6px;border-radius:50%;
+  background:var(--accent);
 }
 
-/* generic badge pill */
+/* generic badge pill (GitHub label 스타일) */
 .badge{
   display:inline-flex;
   align-items:center;
   gap:5px;
-  font-family:'Space Mono',monospace;
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:.04em;
-  padding:4px 10px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:0;
+  padding:2px 9px;
   border-radius:999px;
   white-space:nowrap;
+  line-height:1.8;
 }
-.badge-done{background:rgba(11,164,99,.12);color:var(--mint)}
-.badge-upcoming{background:rgba(255,193,59,.18);color:#96650c}
-.badge-plan{background:rgba(23,24,28,.06);color:var(--ink-soft)}
-.badge-race{background:rgba(225,67,48,.1);color:var(--race)}
+.badge-done{background:var(--success-subtle);color:var(--success)}
+.badge-upcoming{background:var(--accent-subtle);color:var(--accent)}
+.badge-plan{background:var(--canvas-subtle);border:1px solid var(--border);color:var(--fg-muted)}
+.badge-race{background:var(--canvas-subtle);border:1px solid var(--border);color:var(--fg-muted)}
 
 /* ---------- 대회일정 : race timeline ---------- */
-.race-list{display:flex;flex-direction:column;gap:14px}
+.race-list{display:flex;flex-direction:column;gap:10px}
 .race-card{
-  background:var(--paper);
-  border:1px solid var(--line);
-  border-left:3px solid var(--line);
-  border-radius:10px;
-  padding:18px 22px;
-  transition:border-color .15s ease;
+  background:var(--canvas);
+  border:1px solid var(--border);
+  border-left:3px solid var(--border);
+  border-radius:var(--radius);
+  padding:16px 20px;
 }
-.race-card.is-done{border-left-color:var(--mint)}
-.race-card.is-upcoming{border-left-color:var(--lane)}
-.race-card.is-plan{border-left-color:var(--ink-soft)}
+.race-card.is-done{border-left-color:var(--success)}
+.race-card.is-upcoming{border-left-color:var(--accent)}
+.race-card.is-plan{border-left-color:var(--border)}
 .race-head{
   display:flex;
   flex-wrap:wrap;
   align-items:center;
-  gap:10px 12px;
+  gap:8px 10px;
   margin-bottom:6px;
 }
-.race-date{
-  font-family:'Space Mono',monospace;
-  font-size:12.5px;
-  color:var(--ink-soft);
-}
-.race-name{
-  font-weight:700;
-  font-size:16px;
-  color:var(--ink);
-  margin-right:auto;
-}
-.race-meta{
-  font-size:13px;
-  color:var(--ink-soft);
-  margin:0 0 12px;
-}
-.race-results{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-}
+.race-date{font-family:var(--mono);font-size:12px;color:var(--fg-muted)}
+.race-name{font-weight:600;font-size:15px;color:var(--fg);margin-right:auto}
+.race-meta{font-size:12.5px;color:var(--fg-muted);margin:0 0 10px}
+.race-results{display:flex;flex-wrap:wrap;gap:6px}
 .result-chip{
-  font-family:'Space Mono',monospace;
-  font-size:12.5px;
-  background:var(--paper-dim);
-  border:1px solid var(--line);
-  border-radius:7px;
-  padding:5px 10px;
-  color:var(--ink);
+  font-family:var(--mono);
+  font-size:12px;
+  background:var(--canvas-subtle);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:3px 9px;
+  color:var(--fg);
 }
-.result-chip b{color:var(--race);font-weight:700}
+.result-chip b{color:var(--accent);font-weight:600}
 .result-label{
   font-family:'Pretendard Variable',sans-serif;
   font-size:12px;
-  color:var(--ink-soft);
+  color:var(--fg-subtle);
   align-self:center;
   margin-right:2px;
 }
@@ -427,106 +355,108 @@ footer{
 .shoe-grid{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-  gap:16px;
+  gap:12px;
 }
 .runner-card{
-  background:var(--paper);
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:20px;
+  background:var(--canvas);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:18px;
 }
 .runner-name{
-  font-weight:800;
-  font-size:15.5px;
-  margin:0 0 12px;
+  font-weight:600;
+  font-size:14.5px;
+  margin:0 0 10px;
   display:flex;
   align-items:center;
   gap:8px;
 }
 .runner-name::before{
   content:"";
-  width:8px;height:8px;border-radius:50%;
-  background:var(--mint);
+  width:7px;height:7px;border-radius:50%;
+  background:var(--accent);
 }
-.shoe-chips{display:flex;flex-wrap:wrap;gap:7px}
+.shoe-chips{display:flex;flex-wrap:wrap;gap:6px}
 .shoe-chip{
   display:inline-flex;
   align-items:center;
   gap:6px;
-  font-size:12.5px;
-  padding:5px 9px 5px 6px;
-  border-radius:7px;
-  background:var(--paper-dim);
-  border:1px solid var(--line);
-  color:var(--ink);
+  font-size:12px;
+  padding:3px 9px 3px 4px;
+  border-radius:999px;
+  background:var(--canvas);
+  border:1px solid var(--border);
+  color:var(--fg);
 }
 .shoe-chip .type{
-  font-family:'Space Mono',monospace;
+  font-family:var(--mono);
   font-size:10.5px;
   font-weight:700;
-  color:#fff;
-  background:var(--ink-soft);
-  border-radius:5px;
-  padding:1px 5px;
+  border-radius:999px;
+  padding:1px 7px;
 }
-.shoe-chip.t-stab .type{background:#5b7fd6}
-.shoe-chip.t-all .type{background:var(--mint)}
-.shoe-chip.t-cush .type{background:#9a7bd6}
-.shoe-chip.t-train .type{background:#e08a2b}
-.shoe-chip.t-carbon .type{background:var(--race)}
-.shoe-chip.is-out{opacity:.55;text-decoration:line-through;border-style:dashed}
+/* GitHub 라벨 팔레트 (파스텔) 로 카테고리 구분 */
+.shoe-chip.t-stab .type,
+.type.t-stab{background:var(--accent-subtle);color:var(--accent)}
+.shoe-chip.t-all .type,
+.type.t-all{background:var(--success-subtle);color:var(--success)}
+.shoe-chip.t-cush .type,
+.type.t-cush{background:var(--done-subtle);color:var(--done)}
+.shoe-chip.t-train .type,
+.type.t-train{background:var(--attention-subtle);color:var(--attention)}
+.shoe-chip.t-carbon .type,
+.type.t-carbon{background:var(--danger-subtle);color:var(--danger)}
+.shoe-chip.is-out{opacity:.5;text-decoration:line-through;border-style:dashed}
 
 .legend-row{
-  margin-top:22px;
-  padding-top:16px;
-  border-top:1px dashed var(--line);
+  margin-top:18px;
+  padding-top:14px;
+  border-top:1px solid var(--border);
   display:flex;
   flex-wrap:wrap;
-  gap:8px 18px;
+  gap:8px 16px;
 }
-.legend-item{
-  display:flex;align-items:center;gap:7px;
-  font-size:12.5px;color:var(--ink-soft);
-}
+.legend-item{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--fg-muted)}
 .legend-item .type{
-  font-family:'Space Mono',monospace;
-  font-size:10.5px;font-weight:700;color:#fff;
-  border-radius:5px;padding:1px 5px;
+  font-family:var(--mono);
+  font-size:10.5px;font-weight:700;
+  border-radius:999px;padding:1px 7px;
 }
 
 /* ---------- 몸관리 : weight tracker ---------- */
-.weight-list{display:flex;flex-direction:column;gap:14px}
+.weight-list{display:flex;flex-direction:column;gap:10px}
 .weight-row{
   display:grid;
   grid-template-columns:100px 1fr 150px;
   align-items:center;
   gap:16px;
-  padding:14px 16px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:var(--paper);
+  padding:12px 16px;
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  background:var(--canvas);
 }
-.weight-name{font-weight:700;font-size:14.5px}
+.weight-name{font-weight:600;font-size:14px}
 .weight-track{
   position:relative;
   height:8px;
   border-radius:999px;
-  background:var(--paper-dim);
+  background:var(--canvas-subtle);
   overflow:hidden;
+  border:1px solid var(--border);
 }
 .weight-track-fill{
   position:absolute;left:0;top:0;bottom:0;
   border-radius:999px;
-  background:var(--mint);
+  background:var(--success);
 }
-.weight-track.is-over .weight-track-fill{background:var(--race)}
+.weight-track.is-over .weight-track-fill{background:var(--danger)}
 .weight-values{
-  font-family:'Space Mono',monospace;
-  font-size:11.5px;
-  color:var(--ink-soft);
+  font-family:var(--mono);
+  font-size:11px;
+  color:var(--fg-muted);
   margin-top:6px;
 }
-.weight-values b{color:var(--ink);font-weight:700}
+.weight-values b{color:var(--fg);font-weight:600}
 .weight-delta{text-align:right}
 
 @media(max-width:560px){
@@ -534,9 +464,56 @@ footer{
   .weight-delta{text-align:left}
 }
 
-/* ---------- responsive ---------- */
+/* ===========================================================
+   반응형 (모바일) — 왼쪽 메뉴는 사라지지 않고
+   햄버거 버튼으로 여닫는 슬라이드 메뉴로 전환
+   =========================================================== */
 @media(max-width:800px){
-  .sidebar{display:none}
-  main{padding:36px 20px 48px}
-  .hero{padding:40px 22px 34px}
+
+  .nav-toggle-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:fixed;
+    top:14px;
+    left:14px;
+    width:40px;
+    height:40px;
+    border-radius:var(--radius);
+    background:var(--canvas);
+    border:1px solid var(--border);
+    color:var(--fg);
+    font-size:18px;
+    z-index:60;
+    cursor:pointer;
+    box-shadow:0 3px 10px rgba(31,35,40,.12);
+  }
+
+  .sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    width:min(78vw,260px);
+    z-index:55;
+    transform:translateX(-100%);
+    transition:transform .25s ease;
+    overflow-y:auto;
+    box-shadow:1px 0 0 var(--border);
+  }
+
+  .nav-toggle:checked ~ .layout .sidebar{
+    transform:translateX(0);
+  }
+
+  .nav-toggle:checked ~ .nav-overlay{
+    display:block;
+    position:fixed;
+    inset:0;
+    background:rgba(31,35,40,.4);
+    z-index:50;
+  }
+
+  main{padding:72px 16px 44px}
+  .hero{padding:36px 20px 30px}
 }
