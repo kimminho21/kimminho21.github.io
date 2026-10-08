@@ -517,3 +517,58 @@ footer{
   main{padding:72px 16px 44px}
   .hero{padding:36px 20px 30px}
 }
+
+/* ---------- PB : personal best board ---------- */
+.pb-podium{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:16px;
+}
+.pb-top{
+  background:var(--canvas);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:14px 18px;
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.pb-top-label{font-size:12px;font-weight:600;color:var(--fg-muted)}
+.pb-top-time{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--fg)}
+.pb-top-name{font-size:13px;color:var(--fg-muted)}
+.pb-top.is-empty .pb-top-time,
+.pb-top.is-empty .pb-top-name{color:var(--fg-subtle)}
+
+table.pb-table{min-width:620px}
+table.pb-table thead th{padding-top:12px}
+table.pb-table tbody td{padding:12px 14px;vertical-align:middle}
+table.pb-table td.pb-runner{
+  font-family:'Pretendard Variable','Pretendard',sans-serif;
+  font-size:14px;
+  font-weight:600;
+  color:var(--fg);
+}
+.pb-time{
+  display:block;
+  font-family:var(--mono);
+  font-size:14px;
+  font-weight:600;
+  color:var(--fg);
+}
+.pb-race{display:block;margin-top:2px;font-family:'Pretendard Variable',sans-serif;font-size:11px;color:var(--fg-subtle)}
+.pb-none{color:var(--fg-subtle);font-family:var(--mono)}
+
+@media(max-width:560px){
+  .pb-podium{grid-template-columns:1fr}
+}
+
+/* PB 표 : 열 너비 동일 + 세로 구분선 */
+table.pb-table{table-layout:fixed}
+table.pb-table th:first-child,
+table.pb-table td:first-child{width:22%}
+table.pb-table th:nth-child(n+2),
+table.pb-table td:nth-child(n+2){width:26%;border-left:1px solid var(--border)}
+/* PB 표 : 러너 열 가운데 정렬 */
+table.pace-table.pb-table thead th:first-child,
+table.pace-table.pb-table tbody td:first-child{text-align:center;padding-left:14px}
